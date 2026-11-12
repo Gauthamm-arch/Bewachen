@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BEWACHEN — When you can't explain, let your information speak.",
+  title: "BEWACHEN — Always there when you need us.",
   description:
     "A user-controlled safety PWA. Generate emergency QR codes and access local emergency services instantly.",
   manifest: "/manifest.json",

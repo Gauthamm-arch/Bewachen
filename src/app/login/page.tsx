@@ -34,15 +34,19 @@ export default function LoginPage() {
   }
 
   const field =
-    "w-full rounded-lg border-2 border-[#101820] bg-white px-4 py-3 text-lg focus:outline-none focus:ring-4 focus:ring-[#E5252A]/40";
+    "w-full rounded-lg border-2 bg-white px-4 py-3 text-lg focus:outline-none focus:ring-4";
+  const validField = "border-[#22c55e] focus:ring-[#22c55e]/40";
+  const invalidField = "border-[#101820] focus:ring-[#E5252A]/40";
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validPassword = password.length >= 6;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#FAFAF7] p-6 text-[#101820]">
       <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-5">
         <header>
-          <h1 className="text-4xl font-extrabold tracking-tight">Bewachen</h1>
+          <h1 className="text-4xl font-semibold tracking-wide">Bewachen</h1>
           <p className="mt-2 text-[#5B6770]">
-            When you can&apos;t explain, let your information speak.
+            Always there when you need us.
           </p>
         </header>
 
@@ -54,7 +58,7 @@ export default function LoginPage() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={field}
+            className={`${field} ${validEmail ? validField : invalidField}`}
           />
         </label>
 
@@ -67,7 +71,7 @@ export default function LoginPage() {
             autoComplete={mode === "signup" ? "new-password" : "current-password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={field}
+            className={`${field} ${validPassword ? validField : invalidField}`}
           />
         </label>
 
