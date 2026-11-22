@@ -1,10 +1,10 @@
 # BEWACHEN
 
-> "When you can't explain, let your information speak."
+> "Our moto - When you can't explain, let your information speak."
 
-A user-controlled, slider-centric safety PWA. Users complete a one-time onboarding to store their emergency info and contacts. The dashboard uses physical-feeling sliders (powered by `framer-motion`) to generate secure QR codes and trigger dynamic emergency dialing routed to local authorities.
+A user-controlled safety PWA that is slider centric. Users complete a one-time onboarding to store their emergency info and contacts. The core interaction on the dashboard uses sliders powered by framer motion to generate secure QR codes and trigger dynamic emergency dialing routed to local authorities.
 
-## Tech Stack
+## Tech Stack Implemented
 
 - **Frontend:** Next.js 14 (App Router), Tailwind CSS, Framer Motion
 - **Backend:** Python FastAPI
@@ -12,16 +12,22 @@ A user-controlled, slider-centric safety PWA. Users complete a one-time onboardi
 
 ## Getting Started
 
+**To access the deployed version, type [https://bewachen-1.onrender.com/](https://bewachen-1.onrender.com/) into a browser**
+
+**To run it locally**
+
+Go to project directory and 
+
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Set up environment variables
 cp .env.example .env.local
 # Fill in your Supabase URL and Anon Key
 
 # Run the development server
-pnpm dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
