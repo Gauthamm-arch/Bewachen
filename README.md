@@ -1,4 +1,4 @@
-# BEWACHEN
+# 🏼 BEWACHEN
 
 > "Our moto - When you can't explain, let your information speak."
 
