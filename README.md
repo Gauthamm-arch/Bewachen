@@ -11,7 +11,7 @@ A user-controlled safety PWA that is slider centric. Users complete a one-time o
 - **Database & Auth:** Supabase (PostgreSQL)
 - **Hosting:** Render (both frontend and backend)
 
-## How it works (⚠️Be careful live calls can and may be placed accidentally)
+## How it works (⚠️ Be careful live calls can and may be placed accidentally)
 
 1. **Sign up** and fill in your profile once (name, countries, medical info, notes for responders, emergency contacts).
 2. **Generate a QR code** from the dashboard. The QR contains only a long random link, never your personal data.
