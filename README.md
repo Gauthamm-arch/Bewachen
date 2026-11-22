@@ -128,7 +128,6 @@ src/
 
 ## Roadmap
 
-- Add the Supabase schema (SQL) to the repo
 - More countries in the emergency numbers table, with sources
 - Location sharing and contact alerts
 - Offline-friendly helper page and PWA icons
