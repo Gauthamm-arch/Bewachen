@@ -4,6 +4,8 @@
 
 A user-controlled safety PWA that is slider centric. Users complete a one-time onboarding to store their emergency info and contacts. The core interaction on the dashboard uses sliders powered by framer motion to generate secure QR codes and trigger dynamic emergency dialing routed to local authorities.
 
+Bewachen was made so that almost anyone of any age group is able to use the application.
+
 ## Tech Stack Implemented
 
 - **Frontend:** Next.js 14 (App Router), Tailwind CSS, Framer Motion
