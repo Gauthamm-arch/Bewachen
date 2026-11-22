@@ -1,17 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { supabase } from "@/lib/supabaseClient";
 import { withTimeout } from "@/lib/withTimeout";
 import { buildReadUrl } from "@/lib/token";
 import { createToken, revokeTokens } from "@/lib/api";
 import { EmergencyService, getEmergencyNumber } from "@/lib/emergencyNumbers";
+import { toTelHref } from "@/lib/phone";
 import SlideToConfirm from "./SlideToConfirm";
 import EmergencySlider from "./EmergencySlider";
 import SideMenu from "./SideMenu";
-import MockDialer from "./MockDialer";
 import { MenuIcon, QrIcon } from "./icons";
 
 type Notice = { text: string; tone: "ok" | "error" } | null;
@@ -132,7 +131,15 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
     window.location.assign("/login");
   }, []);
 
-  const closeDialer = useCallback(() => setService(null), []);
+  // Hands the number to the phone's dialer. `service` stays set for a moment so the slider can't be triggered twice.
+  const callService = useCallback(
+    (s: EmergencyService) => {
+      setService(s);
+      window.location.href = toTelHref(numbers[s]);
+      setTimeout(() => setService(null), 1500);
+    },
+    [numbers]
+  );
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   const qrUrl = token ? buildReadUrl(token) : null;
@@ -270,16 +277,13 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
             </span>
           </div>
           <div className="flex flex-1 items-center justify-center my-auto w-full py-2">
-            <EmergencySlider numbers={numbers} active={service} onSelect={setService} />
+            <EmergencySlider numbers={numbers} active={service} onSelect={callService} />
           </div>
         </section>
       </main>
 
       <SideMenu open={menuOpen} onClose={closeMenu} onReset={resetProfile} onSignOut={signOut} />
 
-      <AnimatePresence>
-        {service && <MockDialer key={service} service={service} countryCode={countryCode} onClose={closeDialer} />}
-      </AnimatePresence>
     </div>
   );
 }
