@@ -9,7 +9,7 @@ A user-controlled safety PWA that is slider centric. Users complete a one-time o
 - **Frontend:** Next.js 14 (App Router), Tailwind CSS, Framer Motion
 - **Backend:** Python FastAPI
 - **Database & Auth:** Supabase (PostgreSQL)
-- **Hosting:**
+- **Hosting:** Render (both frontend and backend)
 
 ## How it works
 
