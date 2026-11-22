@@ -2,6 +2,8 @@
 
 > "Our moto - When you can't explain, let your information speak."
 
+> "App works best with a phone/tablet"
+
 A user-controlled safety PWA that is slider centric. Users complete a one-time onboarding to store their emergency info and contacts. The core interaction on the dashboard uses sliders powered by framer motion to generate secure QR codes and trigger dynamic emergency dialing routed to local authorities.
 
 Bewachen was made so that almost anyone of any age group is able to use the application.
@@ -31,6 +33,9 @@ Bewachen was made so that almost anyone of any age group is able to use the appl
 | Edit your profile / sign out / reset | Open **Menu** (top right). |
 
 ### As someone who scans a QR code
+
+> "[⚠️ Be sure to scan the QR code 15 seconds after generation. If time has elapsed 15 seconds then regenarate the QR code once again by swiping the **Slide to Generate** slider]"
+
 1. Scan the QR code with any phone camera.
 2. Read the person's name, medical information and notes for responders.
 3. Under **Call a contact**, slide the knob to the end to call that contact.
