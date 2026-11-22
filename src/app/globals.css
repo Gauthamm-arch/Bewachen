@@ -35,6 +35,20 @@ body {
   width: 6px;
 }
 
+/* Disable Microsoft Edge / IE native password reveal button */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none !important;
+}
+
+.password-mask {
+  -webkit-text-security: disc;
+}
+
+.password-plain {
+  -webkit-text-security: none;
+}
+
 ::-webkit-scrollbar-track {
   background: var(--bewachen-dark);
 }
