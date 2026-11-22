@@ -11,7 +11,7 @@ A user-controlled safety PWA that is slider centric. Users complete a one-time o
 - **Database & Auth:** Supabase (PostgreSQL)
 - **Hosting:**
 
-  ## How it works
+## How it works
 
 1. **Sign up** and fill in your profile once (name, countries, medical info, notes for responders, emergency contacts).
 2. **Generate a QR code** from the dashboard. The QR contains only a long random link, never your personal data.
@@ -113,7 +113,6 @@ src/
 
 ## Current limitations
 
-- **Calls are demo only on the dashboard** (see the warning above). No real emergency call is placed by the app itself.
 - **Emergency numbers are a small table.** Only about two dozen countries are listed; everywhere else falls back to `112`. Numbers change over time, so verify them against each government's official source before real use.
 - **No location sharing, SMS or alerts.** The app does not send your location or notify your contacts.
 - **Needs an internet connection.** There is no offline mode. Scanned pages load their data from the server.
@@ -127,14 +126,13 @@ src/
 
 ## Roadmap
 
-- Replace the **demo dialer** with real calling
 - Add the Supabase schema (SQL) to the repo
 - More countries in the emergency numbers table, with sources
 - Location sharing and contact alerts
 - Offline-friendly helper page and PWA icons
 - Password reset and more sign-in options
 
-  ##Design Philosophy
+##Design Philosophy
 **Thoughtful Simplicity**
 
 
