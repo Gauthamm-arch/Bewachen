@@ -9,16 +9,16 @@ type Variant = "primary" | "danger";
 type Size = "lg" | "md" | "sm";
 
 const SIZES: Record<Size, { track: number; knob: number; text: string }> = {
-  lg: { track: 88, knob: 72, text: "text-lg" },
-  md: { track: 68, knob: 54, text: "text-base" },
-  sm: { track: 56, knob: 44, text: "text-base" },
+  lg: { track: 88, knob: 74, text: "text-lg" },
+  md: { track: 82, knob: 68, text: "text-lg font-bold" },
+  sm: { track: 72, knob: 58, text: "text-base font-bold" },
 };
 const BORDER = 2;
 const SPRING = { type: "spring", stiffness: 500, damping: 40 } as const;
 
 const STYLES = {
-  primary: { track: "border-slate-600 bg-bewachen-surface", fill: "bg-blue-600", label: "text-slate-100", knob: "text-blue-600" },
-  danger: { track: "border-red-500/50 bg-red-950/40", fill: "bg-red-600", label: "text-red-100", knob: "text-red-600" },
+  primary: { track: "border-slate-500/80 bg-bewachen-surface shadow-md", fill: "bg-blue-600", label: "text-slate-100", knob: "text-blue-600" },
+  danger: { track: "border-red-500/60 bg-red-950/50 shadow-md", fill: "bg-red-600", label: "text-red-100", knob: "text-red-600" },
 } as const;
 
 type Props = {
@@ -171,13 +171,9 @@ export default function SlideToConfirm({
           ) : phase === "done" ? (
             <CheckIcon className="h-7 w-7" />
           ) : (
-            <motion.span
-              className="flex"
-              animate={reduceMotion || disabled ? undefined : { x: [0, 5, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <span className={`flex ${reduceMotion || disabled ? "" : "chev-nudge"}`}>
               <ChevronRightIcon className="h-8 w-8" />
-            </motion.span>
+            </span>
           )}
         </div>
       </motion.div>

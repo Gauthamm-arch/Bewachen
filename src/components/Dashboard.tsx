@@ -72,7 +72,7 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
         if (error) throw error;
         if (!cancelled) setToken(data?.access_hash ?? null);
       } catch (e) {
-        if (!cancelled) setNotice({ text: friendly(e, "Could not load your QR code."), tone: "error" });
+        if (!cancelled) setNotice({ text: "Something went wrong. Please try again.", tone: "error" });
       } finally {
         if (!cancelled) setLoadingToken(false);
       }
@@ -95,7 +95,7 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
       setToken(hash);
       setNotice({ text: "Your QR code is ready.", tone: "ok" });
     } catch (e) {
-      setNotice({ text: friendly(e, "Could not create a QR code. Please try again."), tone: "error" });
+      setNotice({ text: "Something went wrong. Please try again.", tone: "error" });
       throw e;
     }
   }, []);
@@ -107,7 +107,7 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
       setToken(null);
       setNotice({ text: "Access revoked. Old QR codes no longer work.", tone: "ok" });
     } catch (e) {
-      setNotice({ text: friendly(e, "Could not revoke access. Please try again."), tone: "error" });
+      setNotice({ text: "Something went wrong. Please try again.", tone: "error" });
       throw e;
     }
   }, []);
@@ -136,58 +136,150 @@ export default function Dashboard({ userId, countryCode }: { userId: string; cou
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   const qrUrl = token ? buildReadUrl(token) : null;
-  const qrSize = compact ? "min(62vw, 25dvh)" : "min(62vw, 30dvh, 280px)";
+  const qrSize = compact ? "min(50vw, 22dvh, 200px)" : "min(58vw, 42dvh, 340px)";
 
   return (
-    <main className={`mx-auto flex min-h-[100dvh] w-full max-w-md flex-col px-4 text-slate-100 ${compact ? "pb-3 pt-2" : "pb-6 pt-4"}`}>
-      <header className="flex items-center justify-between">
-        <span className="text-sm font-bold uppercase tracking-[0.3em] text-slate-300">Bewachen</span>
+    <div className="flex min-h-[100dvh] w-full flex-col text-slate-100">
+      {/* HEADER: Full width with Bewachen on leftmost and Menu on rightmost */}
+      <header className="flex w-full items-center justify-between px-4 py-2 sm:px-6 md:px-8">
+        <span className="text-xl font-extrabold uppercase tracking-normal text-white">Bewachen</span>
         <button
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
           aria-haspopup="dialog"
-          className="flex h-12 items-center gap-2 rounded-full border-2 border-slate-600 px-4 text-base font-semibold focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-500"
+          className="flex h-11 items-center gap-2 rounded-full border-2 border-slate-600 px-4 text-sm font-semibold transition-colors hover:border-slate-500 hover:text-white focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-500"
         >
-          <MenuIcon className="h-6 w-6" />
+          <MenuIcon className="h-5 w-5 text-slate-300" />
           Menu
         </button>
       </header>
 
-      {/* TOP HALF: QR code */}
-      <section aria-label="Emergency QR code" className={`flex flex-1 flex-col justify-center ${compact ? "gap-2 py-2" : "gap-3 py-4"}`}>
-        <div className="mx-auto" style={{ width: qrSize, height: qrSize }}>
-          {qrUrl ? (
-            <div className="h-full w-full rounded-3xl bg-white p-3">
-              <QRCodeSVG value={qrUrl} size={256} level="M" bgColor="#ffffff" fgColor="#000000" style={{ width: "100%", height: "100%" }} />
+      {/* MAIN CONTENT CONTAINER: column on portrait, row on landscape */}
+      <main
+        className={`flex w-full flex-1 flex-col landscape:flex-row landscape:items-stretch landscape:justify-between px-4 sm:px-6 md:px-8 landscape:px-12 ${
+          compact ? "gap-2 pb-2 pt-0" : "gap-3 pb-3 pt-1"
+        } landscape:gap-12 lg:landscape:gap-20 landscape:pt-2 landscape:pb-6`}
+      >
+        {/* EMERGENCY QR CODE (Left on landscape, Bottom on portrait) */}
+        <section
+          aria-label="Emergency QR code"
+          className={`flex flex-1 flex-col justify-between order-3 landscape:order-1 landscape:w-[48%] landscape:max-w-xl ${
+            compact ? "gap-2" : "gap-3"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2.5">
+              <QrIcon className="h-6 w-6 text-slate-300" />
+              <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl">Emergency QR Code</h2>
             </div>
-          ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-slate-600 px-4 text-center text-slate-400">
-              <QrIcon className="h-12 w-12" />
-              <p className="text-base">{loadingToken ? "Loading…" : "Your QR code will appear here"}</p>
+            <span
+              className={`inline-flex items-center gap-1.5 text-xs font-semibold ${
+                token ? "text-emerald-400" : "text-slate-400"
+              }`}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  token ? "bg-emerald-400" : "bg-slate-500"
+                }`}
+              />
+              {token ? "Active" : "Inactive"}
+            </span>
+          </div>
+
+          {/* QR Code Container centered vertically in the available space */}
+          <div className="flex flex-1 flex-col items-center justify-center my-auto py-2">
+            <div style={{ width: qrSize, height: qrSize }}>
+              {qrUrl ? (
+                <div className="h-full w-full rounded-2xl bg-white p-3 shadow-md">
+                  <QRCodeSVG
+                    value={qrUrl}
+                    size={340}
+                    level="M"
+                    bgColor="#ffffff"
+                    fgColor="#000000"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </div>
+              ) : (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-600/80 bg-slate-900/30 px-3 text-center text-slate-400">
+                  <QrIcon className="h-10 w-10 text-slate-500" />
+                  <p className="text-xs font-medium">
+                    {loadingToken ? "Loading…" : "Your QR code will appear here"}
+                  </p>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        <p aria-live="polite" className={`min-h-[24px] text-center text-base font-semibold ${notice?.tone === "error" ? "text-red-400" : notice ? "text-green-400" : token ? "text-green-400" : "text-slate-400"}`}>
-          {notice ? notice.text : token ? "QR code is active" : loadingToken ? "" : "No active QR code"}
-        </p>
+            {/* Error / Notice Text */}
+            {notice && (
+              <p
+                aria-live="polite"
+                className={`mt-3 min-h-[20px] text-center text-xs sm:text-sm font-semibold transition-colors ${
+                  notice.tone === "error" ? "text-red-400" : "text-emerald-400"
+                }`}
+              >
+                {notice.text}
+              </p>
+            )}
+          </div>
 
-        <SlideToConfirm label="Slide to Generate QR" busyLabel="Creating…" size={compact ? "md" : "lg"} onComplete={generate} />
-        <SlideToConfirm label="Slide to Revoke Access" busyLabel="Revoking…" variant="danger" size={compact ? "sm" : "md"} disabled={!token} onComplete={revoke} />
-      </section>
+          {/* Action Sliders docked at the very bottom */}
+          <div className="mt-auto pt-2 flex flex-col gap-3">
+            <SlideToConfirm
+              label={token ? "Slide to Regenerate QR" : "Slide to Generate QR"}
+              busyLabel="Creating…"
+              size={compact ? "md" : "lg"}
+              onComplete={generate}
+            />
+            <SlideToConfirm
+              label="Slide to Revoke Access"
+              busyLabel="Revoking…"
+              variant="danger"
+              size={compact ? "md" : "lg"}
+              disabled={!token}
+              onComplete={revoke}
+            />
+          </div>
+        </section>
 
-      {/* BOTTOM HALF: emergency services */}
-      <section aria-label="Emergency services" className={`rounded-3xl border border-slate-700 bg-bewachen-surface ${compact ? "p-3" : "p-4"}`}>
-        <h2 className={`font-extrabold ${compact ? "mb-2 text-lg" : "text-xl"}`}>Emergency{compact && <span className="ml-2 text-base font-normal text-slate-400">· slide to call</span>}</h2>
-        {!compact && <p className="mb-4 text-base text-slate-400">Slide to a service to call</p>}
-        <EmergencySlider numbers={numbers} active={service} onSelect={setService} />
-      </section>
+        {/* Divider line between QR Code and Emergency Slider */}
+        <div
+          className="order-2 landscape:order-2 hidden landscape:block w-[1.5px] self-stretch bg-slate-700/80 my-2"
+          aria-hidden="true"
+        />
+        <div
+          className="order-2 landscape:order-2 block landscape:hidden h-[1.5px] w-full bg-slate-700/80 my-4"
+          aria-hidden="true"
+        />
+
+        {/* EMERGENCY SERVICES SLIDER (Right on landscape, Top on portrait) */}
+        <section
+          aria-label="Emergency services"
+          className="order-1 landscape:order-3 landscape:w-[48%] landscape:max-w-xl flex flex-col justify-between"
+        >
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-3 w-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
+              </span>
+              <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl">Emergency</h2>
+            </div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Slide to call
+            </span>
+          </div>
+          <div className="flex flex-1 items-center justify-center my-auto w-full py-2">
+            <EmergencySlider numbers={numbers} active={service} onSelect={setService} />
+          </div>
+        </section>
+      </main>
 
       <SideMenu open={menuOpen} onClose={closeMenu} onReset={resetProfile} onSignOut={signOut} />
 
       <AnimatePresence>
         {service && <MockDialer key={service} service={service} countryCode={countryCode} onClose={closeDialer} />}
       </AnimatePresence>
-    </main>
+    </div>
   );
 }

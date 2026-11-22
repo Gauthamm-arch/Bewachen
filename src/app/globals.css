@@ -97,3 +97,29 @@ input::-ms-clear {
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.3),
     0 0 60px rgba(34, 197, 94, 0.1);
 }
+
+/* ---- Slider smoothness ---- */
+/* Cheap, compositor-only looping animations (no JS, no layout). */
+@keyframes knob-ring {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  100% { transform: scale(1.14); opacity: 0; }
+}
+.knob-ring { animation: knob-ring 1.6s ease-out infinite; }
+
+@keyframes chev-nudge {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(5px); }
+}
+.chev-nudge { animation: chev-nudge 1.6s ease-in-out infinite; }
+
+/* While a slider is being dragged, stop every looping animation so the drag gets all the frames. */
+html[data-sliding] .knob-ring,
+html[data-sliding] .chev-nudge,
+html[data-sliding] .animate-ping {
+  animation: none !important;
+}
+html[data-sliding] .knob-ring { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .knob-ring, .chev-nudge { animation: none; }
+}
