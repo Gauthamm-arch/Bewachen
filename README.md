@@ -132,7 +132,8 @@ src/
 - Offline-friendly helper page and PWA icons
 - Password reset and more sign-in options
 
-##Design Philosophy
+## Design Philosophy
+
 **Thoughtful Simplicity**
 
 
